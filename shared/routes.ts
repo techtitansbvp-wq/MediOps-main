@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { insertConsumerSchema, consumers } from './schema';
+import { insertConsumerSchema, insertInventorySchema, consumers, inventory, analytics } from './schema';
 
 export const errorSchemas = {
   validation: z.object({
@@ -63,6 +63,51 @@ export const api = {
       },
     },
   },
+  inventory: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/inventory',
+      responses: {
+        200: z.array(z.custom<typeof inventory.$inferSelect>()),
+      },
+    },
+    create: {
+      method: 'POST' as const,
+      path: '/api/inventory',
+      input: insertInventorySchema,
+      responses: {
+        201: z.custom<typeof inventory.$inferSelect>(),
+        400: errorSchemas.validation,
+      },
+    },
+    update: {
+      method: 'PUT' as const,
+      path: '/api/inventory/:id',
+      input: insertInventorySchema.partial(),
+      responses: {
+        200: z.custom<typeof inventory.$inferSelect>(),
+        400: errorSchemas.validation,
+        404: errorSchemas.notFound,
+      },
+    },
+    delete: {
+      method: 'DELETE' as const,
+      path: '/api/inventory/:id',
+      responses: {
+        204: z.void(),
+        404: errorSchemas.notFound,
+      },
+    },
+  },
+  analytics: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/analytics',
+      responses: {
+        200: z.array(z.custom<typeof analytics.$inferSelect>()),
+      },
+    },
+  },
 };
 
 export function buildUrl(path: string, params?: Record<string, string | number>): string {
@@ -80,3 +125,5 @@ export function buildUrl(path: string, params?: Record<string, string | number>)
 export type CreateConsumerRequest = z.infer<typeof api.consumers.create.input>;
 export type UpdateConsumerRequest = z.infer<typeof api.consumers.update.input>;
 export type ConsumerResponse = z.infer<typeof api.consumers.get.responses[200]>;
+export type InventoryResponse = z.infer<typeof api.inventory.list.responses[200][number]>;
+export type AnalyticsResponse = z.infer<typeof api.analytics.list.responses[200][number]>;

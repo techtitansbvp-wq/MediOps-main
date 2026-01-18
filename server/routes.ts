@@ -78,6 +78,57 @@ export async function registerRoutes(
     res.status(204).send();
   });
 
+  // Inventory API
+  app.get(api.inventory.list.path, async (req, res) => {
+    const inventory = await storage.getInventory();
+    res.json(inventory);
+  });
+
+  app.post(api.inventory.create.path, async (req, res) => {
+    try {
+      const input = api.inventory.create.input.parse(req.body);
+      const item = await storage.createInventoryItem(input);
+      res.status(201).json(item);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({
+          message: err.errors[0].message,
+          field: err.errors[0].path.join('.'),
+        });
+      }
+      throw err;
+    }
+  });
+
+  app.put(api.inventory.update.path, async (req, res) => {
+    try {
+      const id = Number(req.params.id);
+      const input = api.inventory.update.input.parse(req.body);
+      const item = await storage.updateInventoryItem(id, input);
+      res.json(item);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({
+          message: err.errors[0].message,
+          field: err.errors[0].path.join('.'),
+        });
+      }
+      throw err;
+    }
+  });
+
+  app.delete(api.inventory.delete.path, async (req, res) => {
+    const id = Number(req.params.id);
+    await storage.deleteInventoryItem(id);
+    res.status(204).send();
+  });
+
+  // Analytics API
+  app.get(api.analytics.list.path, async (req, res) => {
+    const data = await storage.getAnalytics();
+    res.json(data);
+  });
+
   // Seed Data (if empty)
   const existingConsumers = await storage.getConsumers();
   if (existingConsumers.length === 0) {
@@ -100,6 +151,26 @@ export async function registerRoutes(
       dateOfBirth: "1945-05-15",
       medicalHistory: "Arthritis, Glaucoma",
       status: "active"
+    });
+  }
+
+  const existingInventory = await storage.getInventory();
+  if (existingInventory.length === 0) {
+    await storage.createInventoryItem({
+      name: "Amoxicillin 500mg",
+      category: "Antibiotics",
+      stockLevel: 150,
+      minStockLevel: 50,
+      price: "15.50",
+      expiryDate: "2026-12-31"
+    });
+    await storage.createInventoryItem({
+      name: "Lisinopril 10mg",
+      category: "Hypertension",
+      stockLevel: 25,
+      minStockLevel: 40,
+      price: "12.00",
+      expiryDate: "2027-06-30"
     });
   }
 

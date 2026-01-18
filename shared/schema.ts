@@ -47,3 +47,8 @@ export const insertAnalyticsSchema = createInsertSchema(analytics).omit({ id: tr
 export type Consumer = typeof consumers.$inferSelect;
 export type Inventory = typeof inventory.$inferSelect;
 export type Analytics = typeof analytics.$inferSelect;
+
+export type CreateConsumerRequest = z.infer<typeof insertConsumerSchema>;
+export type UpdateConsumerRequest = Partial<CreateConsumerRequest>;
+export type CreateInventoryRequest = z.infer<typeof insertInventorySchema>;
+export type UpdateInventoryRequest = Partial<CreateInventoryRequest>;
