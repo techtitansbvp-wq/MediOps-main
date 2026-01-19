@@ -10,6 +10,7 @@ import { Sidebar } from "@/components/Sidebar";
 // Pages
 import Dashboard from "@/pages/Dashboard";
 import Consumers from "@/pages/Consumers";
+import Inventory from "@/pages/Inventory";
 import Settings from "@/pages/Settings";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/not-found";
@@ -50,6 +51,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Dashboard} />
         <Route path="/consumers" component={Consumers} />
+        <Route path="/inventory" component={Inventory} />
         <Route path="/settings" component={Settings} />
         <Route component={NotFound} />
       </Switch>

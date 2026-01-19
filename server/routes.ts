@@ -157,20 +157,24 @@ export async function registerRoutes(
   const existingInventory = await storage.getInventory();
   if (existingInventory.length === 0) {
     await storage.createInventoryItem({
-      name: "Amoxicillin 500mg",
+      productName: "Amoxicillin 500mg",
+      skuOrId: "AMX-500",
       category: "Antibiotics",
-      stockLevel: 150,
-      minStockLevel: 50,
+      stockQuantity: 150,
       price: "15.50",
-      expiryDate: "2026-12-31"
+      expiryDate: "2026-12-31",
+      supplier: "Global Pharma",
+      availabilityStatus: "in_stock"
     });
     await storage.createInventoryItem({
-      name: "Lisinopril 10mg",
+      productName: "Lisinopril 10mg",
+      skuOrId: "LSN-010",
       category: "Hypertension",
-      stockLevel: 25,
-      minStockLevel: 40,
+      stockQuantity: 25,
       price: "12.00",
-      expiryDate: "2027-06-30"
+      expiryDate: "2027-06-30",
+      supplier: "HealthCare Supplies",
+      availabilityStatus: "low_stock"
     });
   }
 

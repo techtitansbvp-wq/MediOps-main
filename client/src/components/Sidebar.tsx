@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Users, Settings, LogOut, Activity, Menu, X } from "lucide-react";
+import { LayoutDashboard, Users, Package, Settings, LogOut, Activity, Menu, X } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,6 +14,7 @@ export function Sidebar() {
   const navItems = [
     { href: "/", label: "Dashboard", icon: LayoutDashboard },
     { href: "/consumers", label: "Consumers", icon: Users },
+    { href: "/inventory", label: "Inventory", icon: Package },
     { href: "/settings", label: "Settings", icon: Settings },
   ];
 

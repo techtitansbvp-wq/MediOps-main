@@ -23,32 +23,22 @@ export const consumers = pgTable("consumers", {
 
 export const inventory = pgTable("inventory", {
   id: serial("id").primaryKey(),
-  name: text("name").notNull(),
+  productName: text("product_name").notNull(),
+  skuOrId: text("sku_or_id").notNull(),
   category: text("category").notNull(),
-  stockLevel: integer("stock_level").notNull(),
-  minStockLevel: integer("min_stock_level").notNull().default(10),
-  price: numeric("price", { precision: 10, scale: 2 }).notNull(),
+  stockQuantity: integer("stock_quantity").notNull(),
   expiryDate: date("expiry_date"),
+  supplier: text("supplier"),
+  price: numeric("price", { precision: 10, scale: 2 }).notNull(),
+  availabilityStatus: text("availability_status").notNull().default("in_stock"),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const analytics = pgTable("analytics", {
-  id: serial("id").primaryKey(),
-  date: date("date").notNull(),
-  revenue: numeric("revenue", { precision: 12, scale: 2 }).notNull(),
-  orders: integer("orders").notNull(),
-  newPatients: integer("new_patients").notNull(),
-});
-
-export const insertConsumerSchema = createInsertSchema(consumers).omit({ id: true, createdAt: true, updatedAt: true });
 export const insertInventorySchema = createInsertSchema(inventory).omit({ id: true, updatedAt: true });
-export const insertAnalyticsSchema = createInsertSchema(analytics).omit({ id: true });
 
 export type Consumer = typeof consumers.$inferSelect;
 export type Inventory = typeof inventory.$inferSelect;
 export type Analytics = typeof analytics.$inferSelect;
 
-export type CreateConsumerRequest = z.infer<typeof insertConsumerSchema>;
-export type UpdateConsumerRequest = Partial<CreateConsumerRequest>;
-export type CreateInventoryRequest = z.infer<typeof insertInventorySchema>;
-export type UpdateInventoryRequest = Partial<CreateInventoryRequest>;
+export type InsertConsumer = typeof consumers.$inferInsert;
+export type InsertInventory = z.infer<typeof insertInventorySchema>;
