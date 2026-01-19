@@ -71,6 +71,15 @@ export default function Login() {
               Sign In with Replit Auth
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
+
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full h-14 text-lg font-medium border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-300"
+              onClick={() => window.location.href = "/demo-preview"}
+            >
+              View Demo
+            </Button>
             
             <p className="text-xs text-center text-muted-foreground mt-8">
               By signing in, you agree to our Terms of Service and Privacy Policy.
