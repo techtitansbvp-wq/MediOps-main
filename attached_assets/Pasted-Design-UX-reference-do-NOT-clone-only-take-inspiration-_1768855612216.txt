@@ -1,0 +1,362 @@
+Design + UX reference (do NOT clone, only take inspiration):
+https://v0-medi-ops-saa-s-app-git-main2-aarushs-projects-43737ecd.vercel.app/
+
+⚠️ CRITICAL RULES:
+
+DO NOT delete or break any existing features
+
+DO NOT break authentication, login, or current database
+
+Extend the app, do not rewrite it from scratch
+
+Maintain current routing structure
+
+Maintain existing backend logic
+
+Reuse existing UI components where possible
+
+Make all additions modular
+
+Must remain deployable on Replit
+
+No console errors
+
+No broken links
+
+No broken routes
+
+1. Global Light / Dark Mode Toggle
+
+Add a global theme toggle button fixed in the top-right corner.
+
+Requirements:
+
+Toggles ENTIRE site (backgrounds, cards, text, navbars, modals, tables, forms)
+
+Must persist using localStorage
+
+Must respect system theme by default
+
+Smooth transitions (no flashing)
+
+Mobile friendly
+
+Available on all pages
+
+2. Demo Mode Button on Landing Page
+
+Add a "View Demo" button on the start/landing page.
+
+Behavior:
+
+Opens the dashboard without login
+
+Uses mock/sample data
+
+Read-only mode
+
+Shows a visible "Demo Mode" banner
+
+Prevents real DB changes
+
+Can exit demo mode
+
+3. New Tabs + Database Integration
+A. Inventory Tab
+
+Create a new Inventory tab.
+
+Fields:
+
+Product Name
+
+SKU/ID
+
+Category
+
+Stock Quantity
+
+Expiry Date
+
+Supplier
+
+Price
+
+Availability Status
+
+Features:
+
+Add
+
+Edit
+
+Delete
+
+Search
+
+Filter
+
+Low-stock warnings
+
+Own database collection/table
+
+B. Orders Tab
+
+Inside Orders, split into two sections:
+
+Consumer Orders
+
+Order ID
+
+Consumer Name
+
+Items
+
+Quantity
+
+Status (Pending, Packed, Shipped, Delivered, Cancelled)
+
+Priority (based on subscription)
+
+Timestamp
+
+Retail Shop Orders
+
+Shop Name
+
+Order ID
+
+Bulk quantities
+
+Pricing tier
+
+Delivery ETA
+
+Status
+
+Each must have:
+
+CRUD
+
+Filters
+
+Search
+
+Own DB structure
+
+C. Subscription Management Tab
+
+Create 3 plans:
+
+Basic
+
+Standard delivery
+
+No priority
+
+No consultation
+
+Pro
+
+Faster delivery
+
+Limited consultation
+
+Medium priority
+
+Premium
+
+Fastest delivery
+
+Unlimited doctor consultation
+
+Highest priority
+
+Emergency priority
+
+Features:
+
+Users linked to plans
+
+Plan affects:
+
+Order priority
+
+Emergency handling
+
+UI labels
+
+Admin can manage plans
+
+Users can view plan info
+
+Separate database
+
+D. Emergency Tab
+
+Shows all emergency requests.
+
+Fields:
+
+Emergency ID
+
+Consumer name
+
+Location
+
+Emergency type
+
+Description
+
+Timestamp
+
+Status (Pending, In Progress, Resolved)
+
+Priority (based on subscription)
+
+Features:
+
+Visually highlighted
+
+Sorted by urgency
+
+Admin controls
+
+Own database
+
+4. Mobile Optimization
+
+Make the entire site fully responsive.
+
+Requirements:
+
+Sidebar → hamburger on mobile
+
+Tables → card layout
+
+No horizontal scroll
+
+Stacked forms
+
+Thumb-friendly buttons
+
+Fullscreen modals
+
+Accessible toggle & navbar
+
+5. Personalization
+
+Add personalization features:
+
+Greet user by name
+
+Role-based dashboards
+
+Subscription-based UI changes
+
+Personalized quick actions
+
+Recent activity
+
+Smart suggestions
+
+Store preferences
+
+6. UI / UX Upgrade
+
+Improve the visual design:
+
+Modern SaaS look
+
+Clean spacing
+
+Better typography
+
+Card-based layout
+
+Subtle animations
+
+Improved contrast
+
+Clear hierarchy
+
+Better nav clarity
+
+Icon usage
+
+Smooth transitions
+
+Use the reference site ONLY for inspiration.
+
+7. Demo Data
+
+When in demo mode, load mock data for:
+
+Inventory
+
+Orders
+
+Subscriptions
+
+Emergency requests
+
+Demo data must NOT affect real DB.
+
+8. Technical Requirements
+
+Modular components
+
+Clean routing
+
+Optimized performance
+
+Lazy loading
+
+No duplication
+
+Clean code
+
+Proper state management
+
+Reusable components
+
+Comments where needed
+
+9. Final Output
+
+When done, the app must have:
+
+✅ Light/Dark mode
+✅ Demo mode
+✅ Inventory tab
+✅ Orders tab (consumer + retail)
+✅ Subscription management
+✅ Emergency tab
+✅ Mobile responsive
+✅ Personalized UI
+✅ No broken features
+✅ No console errors
+
+IMPORTANT
+
+Before coding, analyze the existing codebase and:
+
+Identify current structure
+
+Identify current DB logic
+
+Identify routing system
+
+Identify component system
+
+Then implement upgrades incrementally.
+
+If you want, I can now:
+
+✅ Break this into stepwise Replit prompts
+✅ Add exact database schemas
+✅ Add UI wireframes
+✅ Generate sample data
+✅ Add role-based permission logic
+
+Tell me what you want.
