@@ -1,12 +1,15 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Users, Settings, LogOut, Activity } from "lucide-react";
+import { LayoutDashboard, Users, Settings, LogOut, Activity, Menu, X } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useState, useEffect } from "react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export function Sidebar() {
   const [location] = useLocation();
   const { user, logout } = useAuth();
+  const [open, setOpen] = useState(false);
 
   const navItems = [
     { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -14,8 +17,8 @@ export function Sidebar() {
     { href: "/settings", label: "Settings", icon: Settings },
   ];
 
-  return (
-    <div className="h-screen w-64 bg-card border-r border-border flex flex-col fixed left-0 top-0 shadow-xl z-20">
+  const SidebarContent = () => (
+    <div className="flex flex-col h-full bg-card border-r border-border shadow-xl">
       <div className="p-6 border-b border-border/50">
         <div className="flex items-center gap-3">
           <div className="bg-primary/10 p-2 rounded-xl">
@@ -27,12 +30,12 @@ export function Sidebar() {
         </div>
       </div>
 
-      <div className="flex-1 py-6 px-4 space-y-2">
+      <div className="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location === item.href;
           return (
-            <Link key={item.href} href={item.href}>
+            <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
               <div
                 className={`
                   flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 group
@@ -50,7 +53,7 @@ export function Sidebar() {
         })}
       </div>
 
-      <div className="p-4 border-t border-border/50">
+      <div className="p-4 border-t border-border/50 bg-card/50 backdrop-blur-sm">
         <div className="bg-accent/50 rounded-xl p-4 mb-4 flex items-center gap-3">
           <Avatar className="h-10 w-10 border-2 border-background shadow-sm">
             <AvatarImage src={user?.profileImageUrl} />
@@ -78,5 +81,29 @@ export function Sidebar() {
         </Button>
       </div>
     </div>
+  );
+
+  return (
+    <>
+      {/* Mobile Hamburger Menu */}
+      <div className="lg:hidden fixed top-4 left-4 z-50">
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="bg-background/80 backdrop-blur-sm border shadow-sm rounded-full">
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle Menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 w-64 border-none">
+            <SidebarContent />
+          </SheetContent>
+        </Sheet>
+      </div>
+
+      {/* Desktop Static Sidebar */}
+      <div className="hidden lg:flex h-screen w-64 flex-col fixed left-0 top-0 z-20">
+        <SidebarContent />
+      </div>
+    </>
   );
 }

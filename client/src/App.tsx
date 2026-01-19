@@ -21,7 +21,7 @@ function PrivateLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background flex transition-colors duration-300">
       <Sidebar />
-      <main className="flex-1 ml-64 min-h-screen bg-background/50 transition-colors duration-300">
+      <main className="flex-1 lg:ml-64 min-h-screen bg-background/50 transition-colors duration-300 w-full overflow-x-hidden pt-16 lg:pt-0">
         {children}
       </main>
     </div>

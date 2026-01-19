@@ -53,16 +53,16 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-8 overflow-x-hidden">
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col gap-2"
       >
-        <h1 className="text-3xl font-display font-bold text-foreground">
+        <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground">
           Welcome back, {user?.firstName}
         </h1>
-        <p className="text-muted-foreground">Here's what's happening in your pharmacy today.</p>
+        <p className="text-sm md:text-base text-muted-foreground">Here's what's happening in your pharmacy today.</p>
       </motion.div>
 
       <motion.div 

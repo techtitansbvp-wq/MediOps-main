@@ -66,25 +66,25 @@ export default function Consumers() {
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto h-full flex flex-col">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto h-full flex flex-col gap-6 overflow-x-hidden">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-display font-bold text-foreground">Consumers</h1>
-          <p className="text-muted-foreground mt-1">Manage patient profiles and medical records.</p>
+          <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground">Consumers</h1>
+          <p className="text-sm text-muted-foreground mt-1">Manage patient profiles and medical records.</p>
         </div>
-        <Button onClick={handleAdd} className="shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all">
+        <Button onClick={handleAdd} className="w-full sm:w-auto shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all py-6 sm:py-2">
           <Plus className="w-4 h-4 mr-2" />
           Add Consumer
         </Button>
       </div>
 
-      <div className="bg-card rounded-xl border border-border shadow-sm flex flex-col flex-1 overflow-hidden">
-        <div className="p-4 border-b border-border flex gap-4">
-          <div className="relative flex-1 max-w-sm">
+      <div className="bg-card rounded-xl border border-border shadow-sm flex flex-col flex-1 overflow-hidden min-h-[400px]">
+        <div className="p-4 border-b border-border flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input 
               placeholder="Search by name or email..." 
-              className="pl-9 bg-background/50 border-border/50 focus:bg-background transition-colors"
+              className="pl-9 bg-background/50 border-border/50 focus:bg-background transition-colors w-full"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -93,8 +93,8 @@ export default function Consumers() {
 
         <div className="flex-1 overflow-auto">
           {isLoading ? (
-            <div className="h-full flex items-center justify-center text-muted-foreground">
-              <Loader2 className="w-8 h-8 animate-spin mb-2" />
+            <div className="h-full flex items-center justify-center text-muted-foreground p-12">
+              <Loader2 className="w-8 h-8 animate-spin" />
             </div>
           ) : consumers?.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-muted-foreground p-8">
@@ -105,81 +105,137 @@ export default function Consumers() {
               <p className="text-sm mt-1">Try adjusting your search or add a new consumer.</p>
             </div>
           ) : (
-            <Table>
-              <TableHeader className="bg-muted/30 sticky top-0 z-10 backdrop-blur-sm">
-                <TableRow>
-                  <TableHead className="w-[250px]">Name</TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Date of Birth</TableHead>
-                  <TableHead>Updated</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden md:block">
+                <Table>
+                  <TableHeader className="bg-muted/30 sticky top-0 z-10 backdrop-blur-sm">
+                    <TableRow>
+                      <TableHead className="w-[250px]">Name</TableHead>
+                      <TableHead>Contact</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Date of Birth</TableHead>
+                      <TableHead>Updated</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {consumers?.map((consumer) => (
+                      <TableRow key={consumer.id} className="group hover:bg-muted/30 transition-colors">
+                        <TableCell className="font-medium">
+                          <div className="flex flex-col">
+                            <span className="text-foreground font-semibold">
+                              {consumer.firstName} {consumer.lastName}
+                            </span>
+                            <span className="text-xs text-muted-foreground">{consumer.address || "No address"}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-col text-sm">
+                            <span>{consumer.email}</span>
+                            <span className="text-muted-foreground text-xs">{consumer.phoneNumber}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge 
+                            variant="secondary" 
+                            className={
+                              consumer.status === 'active' 
+                                ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200" 
+                                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            }
+                          >
+                            {consumer.status || "active"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-sm">
+                          {consumer.dateOfBirth ? format(new Date(consumer.dateOfBirth), 'MMM d, yyyy') : '-'}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-sm">
+                          {consumer.updatedAt ? format(new Date(consumer.updatedAt), 'MMM d, yyyy') : '-'}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuItem onClick={() => handleEdit(consumer)}>
+                                <Pencil className="mr-2 h-4 w-4" /> Edit Details
+                              </DropdownMenuItem>
+                              <DropdownMenuItem 
+                                className="text-destructive focus:text-destructive"
+                                onClick={() => handleDelete(consumer.id)}
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" /> Delete Consumer
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile Card Layout */}
+              <div className="md:hidden divide-y divide-border">
                 {consumers?.map((consumer) => (
-                  <TableRow key={consumer.id} className="group hover:bg-muted/30 transition-colors">
-                    <TableCell className="font-medium">
-                      <div className="flex flex-col">
-                        <span className="text-foreground font-semibold">
+                  <div key={consumer.id} className="p-4 space-y-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-semibold text-foreground">
                           {consumer.firstName} {consumer.lastName}
-                        </span>
-                        <span className="text-xs text-muted-foreground">{consumer.address || "No address"}</span>
+                        </h3>
+                        <p className="text-sm text-muted-foreground">{consumer.address || "No address"}</p>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex flex-col text-sm">
-                        <span>{consumer.email}</span>
-                        <span className="text-muted-foreground text-xs">{consumer.phoneNumber}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
                       <Badge 
                         variant="secondary" 
                         className={
                           consumer.status === 'active' 
-                            ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200" 
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            ? "bg-emerald-100 text-emerald-700" 
+                            : "bg-gray-100 text-gray-700"
                         }
                       >
                         {consumer.status || "active"}
                       </Badge>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {consumer.dateOfBirth ? format(new Date(consumer.dateOfBirth), 'MMM d, yyyy') : '-'}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
-                      {consumer.updatedAt ? format(new Date(consumer.updatedAt), 'MMM d, yyyy') : '-'}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem onClick={() => handleEdit(consumer)}>
-                            <Pencil className="mr-2 h-4 w-4" /> Edit Details
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleEdit(consumer)}>
-                            <FileText className="mr-2 h-4 w-4" /> View Medical History
-                          </DropdownMenuItem>
-                          <DropdownMenuItem 
-                            className="text-destructive focus:text-destructive"
-                            onClick={() => handleDelete(consumer.id)}
-                          >
-                            <Trash2 className="mr-2 h-4 w-4" /> Delete Consumer
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Email</p>
+                        <p className="truncate">{consumer.email}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Phone</p>
+                        <p>{consumer.phoneNumber || "-"}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">DOB</p>
+                        <p>{consumer.dateOfBirth ? format(new Date(consumer.dateOfBirth), 'MMM d, yyyy') : "-"}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Updated</p>
+                        <p>{consumer.updatedAt ? format(new Date(consumer.updatedAt), 'MMM d, yyyy') : "-"}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 pt-2">
+                      <Button variant="outline" className="flex-1 py-6" onClick={() => handleEdit(consumer)}>
+                        <Pencil className="w-4 h-4 mr-2" /> Edit
+                      </Button>
+                      <Button variant="outline" className="flex-1 py-6 text-destructive hover:bg-destructive/10" onClick={() => handleDelete(consumer.id)}>
+                        <Trash2 className="w-4 h-4 mr-2" /> Delete
+                      </Button>
+                    </div>
+                  </div>
                 ))}
-              </TableBody>
-            </Table>
+              </div>
+            </>
           )}
         </div>
       </div>
