@@ -38,15 +38,15 @@ export function Sidebar() {
             <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
               <div
                 className={`
-                  flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 group
+                  flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-300 group hover-elevate
                   ${isActive 
-                    ? "bg-primary text-primary-foreground shadow-md shadow-primary/25 font-medium" 
-                    : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 font-semibold scale-[1.02]" 
+                    : "text-muted-foreground hover:bg-accent/80 hover:text-primary"
                   }
                 `}
               >
-                <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary"}`} />
-                <span>{item.label}</span>
+                <Icon className={`w-5 h-5 transition-transform duration-300 group-hover:scale-110 ${isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary"}`} />
+                <span className="tracking-wide">{item.label}</span>
               </div>
             </Link>
           );

@@ -66,25 +66,25 @@ export default function Consumers() {
   }
 
   return (
-    <div className="p-4 md:p-8 max-w-7xl mx-auto h-full flex flex-col gap-6 overflow-x-hidden">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground">Consumers</h1>
-          <p className="text-sm text-muted-foreground mt-1">Manage patient profiles and medical records.</p>
+    <div className="p-6 md:p-10 max-w-7xl mx-auto h-full flex flex-col gap-8 overflow-x-hidden">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+        <div className="space-y-1">
+          <h1 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-foreground">Consumers</h1>
+          <p className="text-base text-muted-foreground">Manage patient profiles and medical records with ease.</p>
         </div>
-        <Button onClick={handleAdd} className="w-full sm:w-auto shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all py-6 sm:py-2">
-          <Plus className="w-4 h-4 mr-2" />
+        <Button onClick={handleAdd} className="w-full sm:w-auto shadow-xl shadow-primary/20 hover:shadow-primary/40 transition-all py-6 sm:px-8 rounded-xl font-semibold">
+          <Plus className="w-5 h-5 mr-2" />
           Add Consumer
         </Button>
       </div>
 
-      <div className="bg-card rounded-xl border border-border shadow-sm flex flex-col flex-1 overflow-hidden min-h-[400px]">
-        <div className="p-4 border-b border-border flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+      <div className="bg-card rounded-2xl border border-card-border shadow-xl shadow-foreground/5 flex flex-col flex-1 overflow-hidden min-h-[500px]">
+        <div className="p-6 border-b border-border bg-muted/5 flex flex-col sm:flex-row gap-6">
+          <div className="relative flex-1 group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground transition-colors group-focus-within:text-primary" />
             <Input 
               placeholder="Search by name or email..." 
-              className="pl-9 bg-background/50 border-border/50 focus:bg-background transition-colors w-full"
+              className="pl-12 py-6 bg-background/50 border-border/50 focus:bg-background focus:ring-primary/20 rounded-xl transition-all w-full"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
