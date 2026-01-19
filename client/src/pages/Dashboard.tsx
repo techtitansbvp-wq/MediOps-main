@@ -72,14 +72,17 @@ export default function Dashboard() {
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
         <motion.div variants={item}>
-          <Card className="border-border shadow-sm hover:shadow-md transition-shadow">
+          <Card className="border-border shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-card to-card/50">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Consumers</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Total Consumers</CardTitle>
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Users className="h-4 w-4 text-primary" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{isLoading ? "..." : totalConsumers}</div>
-              <p className="text-xs text-muted-foreground mt-1">
+              <div className="text-3xl font-bold tracking-tight">{isLoading ? "..." : totalConsumers}</div>
+              <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                <Activity className="w-3 h-3" />
                 Registered in system
               </p>
             </CardContent>
@@ -87,29 +90,38 @@ export default function Dashboard() {
         </motion.div>
 
         <motion.div variants={item}>
-          <Card className="border-border shadow-sm hover:shadow-md transition-shadow">
+          <Card className="border-border shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-card to-card/50">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Patients</CardTitle>
-              <UserCheck className="h-4 w-4 text-secondary" />
+              <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Active Patients</CardTitle>
+              <div className="p-2 bg-secondary/10 rounded-lg">
+                <UserCheck className="h-4 w-4 text-secondary" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{isLoading ? "..." : activeConsumers}</div>
-              <p className="text-xs text-muted-foreground mt-1 text-secondary font-medium">
-                {isLoading ? "..." : Math.round((activeConsumers / (totalConsumers || 1)) * 100)}% active rate
-              </p>
+              <div className="text-3xl font-bold tracking-tight">{isLoading ? "..." : activeConsumers}</div>
+              <div className="mt-2 flex items-center gap-2">
+                <Badge variant="secondary" className="bg-secondary/10 text-secondary border-none text-[10px] px-1.5 py-0 h-4">
+                  {isLoading ? "..." : Math.round((activeConsumers / (totalConsumers || 1)) * 100)}%
+                </Badge>
+                <p className="text-xs text-muted-foreground font-medium">
+                  active rate
+                </p>
+              </div>
             </CardContent>
           </Card>
         </motion.div>
 
         <motion.div variants={item}>
-          <Card className="border-border shadow-sm hover:shadow-md transition-shadow">
+          <Card className="border-border shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-card to-card/50">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">New This Month</CardTitle>
-              <TrendingUp className="h-4 w-4 text-primary" />
+              <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">New This Month</CardTitle>
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <TrendingUp className="h-4 w-4 text-primary" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{isLoading ? "..." : newThisMonth}</div>
-              <p className="text-xs text-muted-foreground mt-1">
+              <div className="text-3xl font-bold tracking-tight">{isLoading ? "..." : newThisMonth}</div>
+              <p className="text-xs text-muted-foreground mt-2">
                 Since {new Date().toLocaleString('default', { month: 'long' })} 1st
               </p>
             </CardContent>
@@ -117,14 +129,16 @@ export default function Dashboard() {
         </motion.div>
 
         <motion.div variants={item}>
-          <Card className="border-border shadow-sm hover:shadow-md transition-shadow">
+          <Card className="border-border shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-card to-card/50">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending Reviews</CardTitle>
-              <Clock className="h-4 w-4 text-orange-500" />
+              <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Pending Reviews</CardTitle>
+              <div className="p-2 bg-orange-500/10 rounded-lg">
+                <Clock className="h-4 w-4 text-orange-500" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">3</div>
-              <p className="text-xs text-muted-foreground mt-1">
+              <div className="text-3xl font-bold tracking-tight">3</div>
+              <p className="text-xs text-muted-foreground mt-2">
                 Requires attention
               </p>
             </CardContent>
