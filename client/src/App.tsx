@@ -14,11 +14,14 @@ import Settings from "@/pages/Settings";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/not-found";
 
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/ThemeToggle";
+
 function PrivateLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex transition-colors duration-300">
       <Sidebar />
-      <main className="flex-1 ml-64 min-h-screen bg-background/50">
+      <main className="flex-1 ml-64 min-h-screen bg-background/50 transition-colors duration-300">
         {children}
       </main>
     </div>
@@ -31,7 +34,7 @@ function Router() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
@@ -57,10 +60,13 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
+      <ThemeProvider defaultTheme="system" storageKey="medi-ops-theme">
+        <TooltipProvider>
+          <ThemeToggle />
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
