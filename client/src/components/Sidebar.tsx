@@ -57,7 +57,7 @@ export function Sidebar() {
       <div className="p-4 border-t border-border/50 bg-card/50 backdrop-blur-sm">
         <div className="bg-accent/50 rounded-xl p-4 mb-4 flex items-center gap-3">
           <Avatar className="h-10 w-10 border-2 border-background shadow-sm">
-            <AvatarImage src={user?.profileImageUrl} />
+            <AvatarImage src={user?.profileImageUrl || undefined} />
             <AvatarFallback className="bg-primary/20 text-primary">
               {user?.firstName?.[0]}
               {user?.lastName?.[0]}
