@@ -19,14 +19,18 @@ import NotFound from "@/pages/not-found";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { DemoBanner } from "@/components/DemoBanner";
 
 function PrivateLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-background flex transition-colors duration-300">
-      <Sidebar />
-      <main className="flex-1 lg:ml-64 min-h-screen bg-background/50 transition-colors duration-300 w-full overflow-x-hidden pt-16 lg:pt-0">
-        {children}
-      </main>
+    <div className="min-h-screen bg-background flex flex-col transition-colors duration-300">
+      <DemoBanner />
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar />
+        <main className="flex-1 lg:ml-64 min-h-screen bg-background/50 transition-colors duration-300 w-full overflow-x-hidden pt-16 lg:pt-0">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }

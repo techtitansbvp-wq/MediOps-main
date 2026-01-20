@@ -188,7 +188,7 @@ export default function EmergencyPage() {
               <div className="flex justify-between items-start mb-2">
                 <Badge variant={
                   emergency.status === "Pending" ? "destructive" : 
-                  emergency.status === "In Progress" ? "warning" : "success"
+                  emergency.status === "In Progress" ? "secondary" : "default"
                 } className="font-bold">
                   {emergency.status}
                 </Badge>

@@ -1,10 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Activity, ArrowRight, ShieldCheck, HeartPulse } from "lucide-react";
-import heroImg from "/logo.png"; // Assuming logo is available based on instructions
+import heroImg from "/logo.png";
+import { useDemoMode } from "@/hooks/use-demo";
+import { useLocation } from "wouter";
 
 export default function Login() {
+  const { setDemoMode } = useDemoMode();
+  const [, setLocation] = useLocation();
+
   const handleLogin = () => {
     window.location.href = "/api/login";
+  };
+
+  const handleDemoMode = () => {
+    setDemoMode(true);
+    setLocation("/");
   };
 
   return (
@@ -76,7 +86,7 @@ export default function Login() {
               variant="outline"
               size="lg"
               className="w-full h-14 text-lg font-medium border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-300"
-              onClick={() => window.location.href = "/demo-preview"}
+              onClick={handleDemoMode}
             >
               View Demo
             </Button>
