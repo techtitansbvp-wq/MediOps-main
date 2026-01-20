@@ -1,6 +1,7 @@
 import { useAuth } from "@/hooks/use-auth";
 import { useConsumers } from "@/hooks/use-consumers";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Users, UserCheck, Clock, Activity, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import {
