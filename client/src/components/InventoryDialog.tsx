@@ -29,6 +29,7 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
+import { useDemoMode } from "@/hooks/use-demo";
 
 interface InventoryDialogProps {
   open: boolean;
@@ -38,6 +39,7 @@ interface InventoryDialogProps {
 
 export function InventoryDialog({ open, onOpenChange, itemToEdit }: InventoryDialogProps) {
   const { toast } = useToast();
+  const { isDemoMode } = useDemoMode();
   const form = useForm<InsertInventory>({
     resolver: zodResolver(insertInventorySchema),
     defaultValues: {
@@ -74,17 +76,23 @@ export function InventoryDialog({ open, onOpenChange, itemToEdit }: InventoryDia
 
   const mutation = useMutation({
     mutationFn: async (data: InsertInventory) => {
+      if (isDemoMode) {
+        toast({ title: "Demo Mode", description: "Write actions are disabled in demo mode." });
+        return null;
+      }
       if (itemToEdit) {
         return await apiRequest("PUT", `/api/inventory/${itemToEdit.id}`, data);
       }
       return await apiRequest("POST", "/api/inventory", data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
-      toast({
-        title: itemToEdit ? "Item updated" : "Item added",
-        description: `Successfully ${itemToEdit ? "updated" : "added"} inventory item.`,
-      });
+      if (!isDemoMode) {
+        queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
+        toast({
+          title: itemToEdit ? "Item updated" : "Item added",
+          description: `Successfully ${itemToEdit ? "updated" : "added"} inventory item.`,
+        });
+      }
       onOpenChange(false);
     },
     onError: (error: Error) => {

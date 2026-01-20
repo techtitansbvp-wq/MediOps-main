@@ -39,6 +39,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { InventoryDialog } from "@/components/InventoryDialog";
+import { useDemoMode } from "@/hooks/use-demo";
+import { MOCK_INVENTORY } from "@shared/mockData";
 
 const LOW_STOCK_THRESHOLD = 10;
 
@@ -47,11 +49,18 @@ export default function InventoryPage() {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const { toast } = useToast();
+  const { isDemoMode } = useDemoMode();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<(Inventory) | undefined>(undefined);
 
   const { data: inventory, isLoading } = useQuery<Inventory[]>({
-    queryKey: ["/api/inventory"],
+    queryKey: ["/api/inventory", isDemoMode],
+    queryFn: async () => {
+      if (isDemoMode) return MOCK_INVENTORY;
+      const res = await fetch("/api/inventory");
+      if (!res.ok) throw new Error("Failed to fetch inventory");
+      return res.json();
+    }
   });
 
   const categories = useMemo(() => {
@@ -75,11 +84,17 @@ export default function InventoryPage() {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
+      if (isDemoMode) {
+        toast({ title: "Demo Mode", description: "Write actions are disabled in demo mode." });
+        return;
+      }
       await apiRequest("DELETE", `/api/inventory/${id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
-      toast({ title: "Item deleted", description: "Inventory item has been removed." });
+      if (!isDemoMode) {
+        queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
+        toast({ title: "Item deleted", description: "Inventory item has been removed." });
+      }
     },
   });
 
