@@ -20,6 +20,7 @@ import NotFound from "@/pages/not-found";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { DemoBanner } from "@/components/DemoBanner";
+import { useDemoMode } from "@/hooks/use-demo";
 
 function PrivateLayout({ children }: { children: React.ReactNode }) {
   return (
