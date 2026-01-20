@@ -37,6 +37,7 @@ function PrivateLayout({ children }: { children: React.ReactNode }) {
 
 function Router() {
   const { user, isLoading } = useAuth();
+  const { isDemoMode } = useDemoMode();
   const [location] = useLocation();
 
   if (isLoading) {
@@ -47,10 +48,20 @@ function Router() {
     );
   }
 
-  // Auth Guard
-  if (!user) {
+  // Auth Guard - Bypass if in Demo Mode
+  if (!user && !isDemoMode) {
     return <Login />;
   }
+
+  // Define a mock user for Demo Mode if not logged in
+  const displayUser = user || (isDemoMode ? {
+    id: 0,
+    username: "demo_user",
+    firstName: "Demo",
+    lastName: "User",
+    email: "demo@mediops.com",
+    role: "admin"
+  } : null);
 
   return (
     <PrivateLayout>

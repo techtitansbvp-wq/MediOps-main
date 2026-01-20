@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { User } from "@shared/models/auth";
+import { useDemoMode } from "./use-demo";
 
 async function fetchUser(): Promise<User | null> {
   const response = await fetch("/api/auth/user", {
@@ -23,11 +24,13 @@ async function logout(): Promise<void> {
 
 export function useAuth() {
   const queryClient = useQueryClient();
+  const { isDemoMode } = useDemoMode();
   const { data: user, isLoading } = useQuery<User | null>({
     queryKey: ["/api/auth/user"],
     queryFn: fetchUser,
     retry: false,
     staleTime: 1000 * 60 * 5, // 5 minutes
+    enabled: !isDemoMode,
   });
 
   const logoutMutation = useMutation({
@@ -38,9 +41,16 @@ export function useAuth() {
   });
 
   return {
-    user,
-    isLoading,
-    isAuthenticated: !!user,
+    user: isDemoMode ? {
+      id: 0,
+      username: "demo_user",
+      firstName: "Demo",
+      lastName: "User",
+      email: "demo@mediops.com",
+      role: "admin"
+    } as any : user,
+    isLoading: isDemoMode ? false : isLoading,
+    isAuthenticated: isDemoMode ? true : !!user,
     logout: logoutMutation.mutate,
     isLoggingOut: logoutMutation.isPending,
   };
