@@ -42,14 +42,28 @@ export const analytics = pgTable("analytics", {
   newPatients: integer("new_patients").notNull(),
 });
 
+export const emergencies = pgTable("emergencies", {
+  id: serial("id").primaryKey(),
+  consumerName: text("consumer_name").notNull(),
+  contactInfo: text("contact_info").notNull(),
+  location: text("location").notNull(),
+  emergencyType: text("emergency_type").notNull(),
+  description: text("description"),
+  status: text("status").notNull().default("Pending"), // Pending, In Progress, Resolved
+  timestamp: timestamp("timestamp").defaultNow().notNull(),
+});
+
 export const insertConsumerSchema = createInsertSchema(consumers).omit({ id: true, createdAt: true, updatedAt: true });
 export const insertInventorySchema = createInsertSchema(inventory).omit({ id: true, updatedAt: true });
 export const insertAnalyticsSchema = createInsertSchema(analytics).omit({ id: true });
+export const insertEmergencySchema = createInsertSchema(emergencies).omit({ id: true, timestamp: true });
 
 export type Consumer = typeof consumers.$inferSelect;
 export type Inventory = typeof inventory.$inferSelect;
 export type Analytics = typeof analytics.$inferSelect;
+export type Emergency = typeof emergencies.$inferSelect;
 
 export type InsertConsumer = typeof consumers.$inferInsert;
 export type InsertInventory = z.infer<typeof insertInventorySchema>;
 export type InsertAnalytics = z.infer<typeof insertAnalyticsSchema>;
+export type InsertEmergency = z.infer<typeof insertEmergencySchema>;

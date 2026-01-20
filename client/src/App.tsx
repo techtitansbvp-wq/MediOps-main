@@ -12,6 +12,7 @@ import Dashboard from "@/pages/Dashboard";
 import Consumers from "@/pages/Consumers";
 import Inventory from "@/pages/Inventory";
 import Subscription from "@/pages/Subscription";
+import Emergency from "@/pages/Emergency";
 import Settings from "@/pages/Settings";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/not-found";
@@ -54,6 +55,7 @@ function Router() {
         <Route path="/consumers" component={Consumers} />
         <Route path="/inventory" component={Inventory} />
         <Route path="/subscription" component={Subscription} />
+        <Route path="/emergency" component={Emergency} />
         <Route path="/settings" component={Settings} />
         <Route component={NotFound} />
       </Switch>

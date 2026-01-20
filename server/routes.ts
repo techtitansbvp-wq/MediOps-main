@@ -129,6 +129,38 @@ export async function registerRoutes(
     res.json(data);
   });
 
+  // Emergency API
+  app.get("/api/emergencies", async (_req, res) => {
+    const data = await storage.getEmergencies();
+    res.json(data);
+  });
+
+  app.post("/api/emergencies", async (req, res) => {
+    try {
+      const { insertEmergencySchema } = await import("@shared/schema");
+      const input = insertEmergencySchema.parse(req.body);
+      const emergency = await storage.createEmergency(input);
+      res.status(201).json(emergency);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({ message: err.errors[0].message });
+      }
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.patch("/api/emergencies/:id/status", async (req, res) => {
+    const id = Number(req.params.id);
+    const { status } = req.body;
+    const updated = await storage.updateEmergencyStatus(id, status);
+    res.json(updated);
+  });
+
+  app.delete("/api/emergencies/:id", async (req, res) => {
+    await storage.deleteEmergency(Number(req.params.id));
+    res.status(204).send();
+  });
+
   // Seed Data (if empty)
   const existingConsumers = await storage.getConsumers();
   if (existingConsumers.length === 0) {

@@ -1,4 +1,4 @@
-import { consumers, inventory, analytics, type Consumer, type InsertConsumer, type Inventory, type InsertInventory, type Analytics } from "@shared/schema";
+import { consumers, inventory, analytics, emergencies, type Consumer, type InsertConsumer, type Inventory, type InsertInventory, type Analytics, type Emergency, type InsertEmergency } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
 
@@ -19,6 +19,12 @@ export interface IStorage {
 
   // Analytics
   getAnalytics(): Promise<Analytics[]>;
+
+  // Emergency
+  getEmergencies(): Promise<Emergency[]>;
+  createEmergency(emergency: InsertEmergency): Promise<Emergency>;
+  updateEmergencyStatus(id: number, status: string): Promise<Emergency>;
+  deleteEmergency(id: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -81,6 +87,25 @@ export class DatabaseStorage implements IStorage {
   // Analytics
   async getAnalytics(): Promise<Analytics[]> {
     return await db.select().from(analytics).orderBy(desc(analytics.date));
+  }
+
+  // Emergency
+  async getEmergencies(): Promise<Emergency[]> {
+    return await db.select().from(emergencies).orderBy(desc(emergencies.timestamp));
+  }
+
+  async createEmergency(emergency: InsertEmergency): Promise<Emergency> {
+    const [newEmergency] = await db.insert(emergencies).values(emergency).returning();
+    return newEmergency;
+  }
+
+  async updateEmergencyStatus(id: number, status: string): Promise<Emergency> {
+    const [updated] = await db.update(emergencies).set({ status }).where(eq(emergencies.id, id)).returning();
+    return updated;
+  }
+
+  async deleteEmergency(id: number): Promise<void> {
+    await db.delete(emergencies).where(eq(emergencies.id, id));
   }
 }
 
