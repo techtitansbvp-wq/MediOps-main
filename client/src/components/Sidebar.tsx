@@ -6,6 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState, useEffect } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
+import logoImg from "@assets/image_1768876736131.png";
+
 export function Sidebar() {
   const [location] = useLocation();
   const { user, logout } = useAuth();
@@ -24,9 +26,7 @@ export function Sidebar() {
     <div className="flex flex-col h-full bg-card border-r border-border shadow-xl">
       <div className="p-6 border-b border-border/50">
         <div className="flex items-center gap-3">
-          <div className="bg-primary/10 p-2 rounded-xl">
-            <Activity className="w-6 h-6 text-primary" />
-          </div>
+          <img src={logoImg} alt="MediOps Logo" className="w-10 h-10 object-contain" />
           <span className="font-display font-bold text-xl tracking-tight text-foreground">
             MediOps
           </span>

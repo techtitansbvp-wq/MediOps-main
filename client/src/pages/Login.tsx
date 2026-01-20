@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Activity, ArrowRight, ShieldCheck, HeartPulse } from "lucide-react";
-import heroImg from "/logo.png";
+import heroImg from "@assets/image_1768876736131.png";
 import { useDemoMode } from "@/hooks/use-demo";
 import { useLocation } from "wouter";
 
@@ -27,9 +27,7 @@ export default function Login() {
         
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-8">
-            <div className="bg-white p-2.5 rounded-xl shadow-lg shadow-black/5">
-              <Activity className="w-8 h-8 text-primary" />
-            </div>
+            <img src={heroImg} alt="MediOps Logo" className="w-12 h-12 object-contain" />
             <span className="font-display font-bold text-2xl tracking-tight">MediOps</span>
           </div>
           
@@ -65,7 +63,7 @@ export default function Login() {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center lg:text-left">
             <div className="inline-flex lg:hidden items-center gap-2 mb-8 bg-primary/10 px-4 py-2 rounded-full">
-              <Activity className="w-5 h-5 text-primary" />
+              <img src={heroImg} alt="MediOps Logo" className="w-6 h-6 object-contain" />
               <span className="font-display font-bold text-primary">MediOps OS</span>
             </div>
             <h2 className="text-3xl font-bold tracking-tight mb-2">Welcome Back</h2>
